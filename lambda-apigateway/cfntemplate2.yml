@@ -1,0 +1,97 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: 'AWS::Serverless-2016-10-31'
+Description: This CloudFormation template to create ApiXXX
+
+Parameters:
+  GwStage:
+    Description: API Gateway deploy stage
+    Type: String
+    AllowedValues:
+    - v1
+  ApiXXXGwRole:
+    Description: API Gateway role name
+    Type: String
+  LambdaName:
+    Description: lambda function name
+    Type: String
+  LambdaRoleName:
+    Description: lambda function role
+    Type: String
+
+Resources:
+  #==============================
+  # apigateway
+  #==============================
+  ApiXXX:
+    Properties:
+      DefinitionBody:
+        Fn::Transform:
+          Name: AWS::Include
+          Parameters:
+            Location: "s3://testtesttsettes/swagger2.yml"
+      StageName:
+        Fn::Sub: ${GwStage}
+    Type: AWS::Serverless::Api
+    Role:
+      Fn::GetAtt:
+        - ApiXXXApiGwRole
+        - Arn
+    DependsOn:
+      - ApiXXXApiGwRole
+      - ApiXXXFunction
+
+  #==============================
+  # lambda(SAM管理)
+  #==============================
+  ApiXXXFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: !Ref LambdaName
+      Handler: index.handler
+      Runtime: nodejs10.x
+      CodeUri: s3://testtesttsettes/index.zip
+      MemorySize: 128
+      Timeout: 60
+      Role:
+        Fn::GetAtt:
+          - LambdaExecutionRole
+          - Arn
+
+  ApiXXXApiGwRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Ref ApiXXXGwRole
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+        - Effect: Allow
+          Principal:
+            Service:
+            - apigateway.amazonaws.com
+          Action:
+          - sts:AssumeRole
+      ManagedPolicyArns:
+      - arn:aws:iam::aws:policy/service-role/AmazonAPIGatewayPushToCloudWatchLogs
+
+  LambdaExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Ref LambdaRoleName
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+        - Effect: Allow
+          Principal:
+            Service:
+            - lambda.amazonaws.com
+          Action:
+          - sts:AssumeRole
+      ManagedPolicyArns:
+      - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+
+  LambdaPermissionxxxx:
+    Type: "AWS::Lambda::Permission"
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName: !Ref ApiXXXFunction
+      Principal: apigateway.amazonaws.com
