@@ -22,20 +22,23 @@
       "Properties" : {
         "RestApiId" : { "Ref" : "SampleRestApi" },
         "ResourceId" : { "Ref" : "SampleResource" },
-        "HttpMethod" : "GET",
+        "HttpMethod" : "POST",
         "AuthorizationType" : "NONE",
         "Integration" : { 
-          "Type" : "MOCK",
-          "RequestTemplates" : {
-            "application/json": "{ \"statusCode\" : 200 }"
-          },
-          "IntegrationResponses" : [
-            { "StatusCode" : "200" }
-          ]
+          "Type" : "MOCK"
         },
         "MethodResponses" : [ 
           { "StatusCode" : "200" }
         ]
+      },
+      "DependsOn": "LambdaPermission"
+    },
+    "LambdaPermission": {
+      "Type": "AWS::Lambda::Permission",
+      "Properties": {
+        "FunctionName": "lambda-python",
+        "Action": "lambda:InvokeFunction",
+        "Principal": "apigateway.amazonaws.com"
       }
     },
     "SampleDeployment" : {
@@ -48,8 +51,8 @@
         "StageDescription" : {
           "Description" : "Prod Stage",
           "MethodSettings" : [{
-            "ResourcePath" : "/sample",
-            "HttpMethod" : "GET",
+            "ResourcePath" : "/v1/ruby/annotate",
+            "HttpMethod" : "POST",
             "MetricsEnabled" : "true",
             "DataTraceEnabled" : "true"
           }]
