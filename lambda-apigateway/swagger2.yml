@@ -7,7 +7,7 @@ schemes:
 - "https"
 paths:
   /v1/ruby/annotate:
-    get:
+    post:
       x-amazon-apigateway-integration:
         uri:
           Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${ApiXXXFunction.Arn}/invocations
