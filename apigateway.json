@@ -1,0 +1,59 @@
+{
+  "AWSTemplateFormatVersion" : "2010-09-09",
+  "Resources" : {
+    "SampleRestApi" : {
+      "Type" : "AWS::ApiGateway::RestApi",
+      "Properties" : {
+        "Description" : "This is Sample Rest API",
+        "Name" : "Sample"
+      }
+    },
+    "SampleResource" : {
+      "Type": "AWS::ApiGateway::Resource",
+      "Properties": {
+        "RestApiId" : { "Ref": "SampleRestApi" },
+        "ParentId" : { "Fn::GetAtt": ["SampleRestApi", "RootResourceId"] },
+        "PathPart": "sample"
+      }
+    },
+    "SampleMethod" : {
+      "Type" : "AWS::ApiGateway::Method",
+      "Properties" : {
+        "RestApiId" : { "Ref" : "SampleRestApi" },
+        "ResourceId" : { "Ref" : "SampleResource" },
+        "HttpMethod" : "GET",
+        "AuthorizationType" : "NONE",
+        "Integration" : { 
+          "Type" : "MOCK",
+          "RequestTemplates" : {
+            "application/json": "{ \"statusCode\" : 200 }"
+          },
+          "IntegrationResponses" : [
+            { "StatusCode" : "200" }
+          ]
+        },
+        "MethodResponses" : [ 
+          { "StatusCode" : "200" }
+        ]
+      }
+    },
+    "SampleDeployment" : {
+      "Type" : "AWS::ApiGateway::Deployment",
+      "DependsOn" : "SampleMethod",
+      "Properties" : {
+        "Description" : "This is Sample Deployment",
+        "RestApiId" : { "Ref" : "SampleRestApi" },
+        "StageName" : "prd",
+        "StageDescription" : {
+          "Description" : "Prod Stage",
+          "MethodSettings" : [{
+            "ResourcePath" : "/sample",
+            "HttpMethod" : "GET",
+            "MetricsEnabled" : "true",
+            "DataTraceEnabled" : "true"
+          }]
+        }
+      }
+    }
+  }
+}
