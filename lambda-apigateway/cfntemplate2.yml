@@ -48,8 +48,8 @@ Resources:
     Properties:
       FunctionName: !Ref LambdaName
       Handler: index.handler
-      Runtime: nodejs10.x
-      CodeUri: s3://testtesttsettes/index.zip
+      Runtime: python3.8
+      CodeUri: s3://testtesttsettes/lambda_function.zip
       MemorySize: 128
       Timeout: 60
       Role:

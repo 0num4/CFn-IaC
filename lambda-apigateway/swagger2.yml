@@ -6,7 +6,7 @@ host: "api-xxx.hoge.me"
 schemes:
 - "https"
 paths:
-  /:
+  /v1/ruby/annotate:
     get:
       x-amazon-apigateway-integration:
         uri:
