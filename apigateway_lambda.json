@@ -9,19 +9,36 @@
         "Name" : "Sample"
       }
     },
-    "SampleResource" : {
+    "V1Resource" : {
       "Type": "AWS::ApiGateway::Resource",
       "Properties": {
         "RestApiId" : { "Ref": "SampleRestApi" },
         "ParentId" : { "Fn::GetAtt": ["SampleRestApi", "RootResourceId"] },
-        "PathPart": "sample"
+        "PathPart": "v1"
       }
     },
+    "RubyResource" : {
+      "Type": "AWS::ApiGateway::Resource",
+      "Properties": {
+        "RestApiId" : { "Ref": "SampleRestApi" },
+        "ParentId" : { "Ref": "V1Resource" },
+        "PathPart": "ruby"
+      }
+    },
+    "AnnotateResource" : {
+      "Type": "AWS::ApiGateway::Resource",
+      "Properties": {
+        "RestApiId" : { "Ref": "SampleRestApi" },
+        "ParentId" : { "Ref": "RubyResource" },
+        "PathPart": "annotate"
+      }
+    },
+
     "SampleMethod" : {
       "Type" : "AWS::ApiGateway::Method",
       "Properties" : {
         "RestApiId" : { "Ref" : "SampleRestApi" },
-        "ResourceId" : { "Ref" : "SampleResource" },
+        "ResourceId" : { "Ref" : "AnnotateResource" },
         "HttpMethod" : "POST",
         "AuthorizationType" : "NONE",
         "Integration" : { 
