@@ -1,6 +1,26 @@
 import json
+import boto3
 
 def lambda_handler(event, context):
+    # invoke lmabda
+    client = boto3.client('lambda')
+    
+    # query = {
+    # "test1": "test",
+    # "test2": "test"
+    # }
+    print("---04: Payload:")
+        #Lambdaを実行
+    response = client.invoke(
+        FunctionName='yobareru',
+        InvocationType='RequestResponse',
+        LogType='Tail'
+        # Payload= query
+    )
+    
+    #レスポンスを読む
+    res = response['Payload'].read()
+    print("---05: Payload:",res)
     # TODO implement
     mock = {
       "words": [
