@@ -5,8 +5,8 @@
     "SampleRestApi" : {
       "Type" : "AWS::ApiGateway::RestApi",
       "Properties" : {
-        "Description" : "This is Sample Rest API",
-        "Name" : "Sample"
+        "Description" : "This is Ruby付与API",
+        "Name" : "Ruby付与API"
       }
     },
     "V1Resource" : {
@@ -42,7 +42,15 @@
         "HttpMethod" : "POST",
         "AuthorizationType" : "NONE",
         "Integration" : { 
-          "Type" : "MOCK"
+          "Type": "AWS_PROXY",
+          "IntegrationHttpMethod": "POST",
+          "Uri": {"Fn::Join": [ "", [
+              "arn:aws:apigateway:",
+              {"Ref":"AWS::Region"},
+              ":lambda:path/2015-03-31/functions/",
+              {"Fn::GetAtt" : [ "lambdaadd", "Arn" ]},
+              "/invocations"
+            ]]}
         },
         "MethodResponses" : [ 
           { "StatusCode" : "200" }
