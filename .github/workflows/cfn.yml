@@ -58,6 +58,7 @@ jobs:
     - name: Deploy openapi files
       run: |
         aws s3 cp ./lambda-apigateway/swagger2.yml s3://ruby-fuyo-system-infra.dev/
+        aws s3 cp ./lambda-apigateway/cfntemplate2.yml s3://ruby-fuyo-system-infra.dev/
     # - name: Login to Amazon ECR
     #   id: login-ecr
     #   uses: aws-actions/amazon-ecr-login@v1
