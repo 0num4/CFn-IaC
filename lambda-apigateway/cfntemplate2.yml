@@ -28,7 +28,7 @@ Resources:
         Fn::Transform:
           Name: AWS::Include
           Parameters:
-            Location: "s3://testtesttsettes/swagger2.yml"
+            Location: "s3://ruby-fuyo-system-infra.dev/swagger2.yml"
       StageName:
         Fn::Sub: ${GwStage}
     Type: AWS::Serverless::Api

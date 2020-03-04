@@ -44,6 +44,11 @@ paths:
         type: "aws_proxy"
       produces:
       - "application/json"
+      parameters:
+      - name: "job_id"
+        in: "query"
+        required: true
+        type: "string"
       responses:
         200:
           description: "200 response"
