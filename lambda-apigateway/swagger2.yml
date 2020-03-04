@@ -5,6 +5,10 @@ info:
 host: "api-xxx.hoge.me"
 schemes:
 - "https"
+x-amazon-apigateway-request-validators:
+  all:
+    validateRequestBody: true
+    validateRequestParameters: true
 paths:
   /v1/ruby/annotate:
     post:
@@ -30,7 +34,7 @@ paths:
               type: "string"
   /v1/ruby/polling:
     get:
-      x-amazon-apigateway-request-validator: params-only
+      x-amazon-apigateway-request-validator: all
       x-amazon-apigateway-integration:
         uri:
           Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${ApiXXXFunction.Arn}/invocations
