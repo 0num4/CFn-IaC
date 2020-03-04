@@ -36,6 +36,8 @@ paths:
         responses:
           default:
             statusCode: "200"
+        requestParameters:
+          integration.request.querystring.job_id: "method.request.querystring.job_id"
         passthroughBehavior: "when_no_match"
         httpMethod: "POST"
         contentHandling: "CONVERT_TO_TEXT"
