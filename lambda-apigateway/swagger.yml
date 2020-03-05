@@ -28,10 +28,11 @@ paths:
       produces:
       - "application/json"
       parameters:
-      - in: "body"
-        name: "sentences"
+      - name: "sentences"
+        in: "body"
         description: "文のarray"
         required: true
+        type: "string"
         schema:
           $ref: "#/definitions/AnnotateRequest"
       responses:
