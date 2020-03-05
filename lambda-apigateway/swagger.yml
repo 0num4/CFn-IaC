@@ -106,15 +106,12 @@ definitions:
     properties:
       sentence_index:
         type: "integer"
-        format: "int64"
       begin:
         type: "integer"
-        format: "int64"
       end:
         type: "string"
       ruby:
         type: "integer"
-        format: "int64"
   PollingResponse:
     type: "object"
     required:
@@ -123,11 +120,9 @@ definitions:
     - "Rubies"
     properties:
       Status:
-        type: "integer"
-        format: "int64"
+        type: "string"
       Elapsed:
         type: "integer"
-        format: "int64"
       Rubies:
         type: "array"
         items:
