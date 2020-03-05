@@ -12,18 +12,27 @@ x-amazon-apigateway-request-validators:
 paths:
   /v1/ruby/annotate:
     post:
+      x-amazon-apigateway-request-validator: all
       x-amazon-apigateway-integration:
         uri:
           Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${ApiXXXFunction.Arn}/invocations
         responses:
           default:
             statusCode: "200"
+        requestParameters:
+          integration.request.body.sentences: "method.request.body.sentences"
         passthroughBehavior: "when_no_match"
         httpMethod: "POST"
         contentHandling: "CONVERT_TO_TEXT"
         type: "aws_proxy"
       produces:
       - "application/json"
+      parameters:
+      - name: "sentences"
+        in: "body"
+        description: "文のarray"
+        required: true
+        type: "string"
       responses:
         200:
           description: "200 response"
@@ -62,11 +71,58 @@ paths:
           headers:
             Access-Control-Allow-Origin:
               type: "string"
-
 definitions:
   Empty:
     type: "object"
     title: "Empty Schema"
+  Sentences:
+    type: "array"
+    items: "string"
+  Rubies:
+    type: "array"
+    items:
+      $ref: "#/definitions/RubiesItem"
+  RubiesItem:
+    type: "object"
+    required:
+    - "sentence_index"
+    - "begin"
+    - "end"
+    - "ruby"
+    properties:
+      sentence_index:
+        type: "integer"
+        example: "0"
+        format: "int64"
+      begin:
+        type: "integer"
+        example: "0"
+        format: "int64"
+      end:
+        type: "string"
+        example: "かど"
+      ruby:
+        type: "integer"
+        format: "int64"
+  PollingResponse:
+    type: "object"
+    required:
+    - "Status"
+    - "Elapsed"
+    - "Rubies"
+    properties:
+      Status:
+        type: "integer"
+        example: "0"
+        format: "int64"
+      Elapsed:
+        type: "integer"
+        example: "0"
+        format: "int64"
+      Rubies:
+        type: "array"
+        items:
+          $ref: "#/definitions/RubiesItem"
 
 x-amazon-apigateway-policy:
   Version: "2012-10-17"
