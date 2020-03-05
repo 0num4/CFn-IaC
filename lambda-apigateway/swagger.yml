@@ -101,10 +101,6 @@ definitions:
       "チョコを取ってくる",
       "カレーは辛い"
     ]
-  Rubies:
-    type: "array"
-    items:
-      $ref: "#/definitions/RubiesItem"
   RubiesItem:
     type: "object"
     required:
@@ -146,6 +142,10 @@ definitions:
         type: "array"
         items:
           $ref: "#/definitions/RubiesItem"
+  Rubies:
+    type: "array"
+    items:
+      $ref: "#/definitions/RubiesItem"
 
 x-amazon-apigateway-policy:
   Version: "2012-10-17"
