@@ -109,9 +109,9 @@ definitions:
       begin:
         type: "integer"
       end:
-        type: "string"
-      ruby:
         type: "integer"
+      ruby:
+        type: "string"
   PollingResponse:
     type: "object"
     required:
