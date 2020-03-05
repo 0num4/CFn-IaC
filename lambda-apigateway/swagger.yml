@@ -32,7 +32,8 @@ paths:
         name: "sentences"
         description: "文のarray"
         required: true
-        type: "string"
+        schema:
+          $ref: "#/definitions/AnnotateRequest"
       responses:
         200:
           description: "200 response"
@@ -75,6 +76,20 @@ definitions:
   Empty:
     type: "object"
     title: "Empty Schema"
+  AnnotateRequest:
+    type: "object"
+    required:
+    - "sentences"
+    - "ruby"
+    properties:
+      sentences:
+        type: "array"
+        items:
+          $ref: "#/definitions/Sentences"
+      ruby:
+        type: "array"
+        items:
+          $ref: "#/definitions/RubiesItem"
   Sentences:
     type: "array"
     xml:
@@ -82,6 +97,10 @@ definitions:
       wrapped: true
     items:
       type: "string"
+    example: [
+      "チョコを取ってくる",
+      "カレーは辛い"
+    ]
   Rubies:
     type: "array"
     items:
