@@ -77,7 +77,11 @@ definitions:
     title: "Empty Schema"
   Sentences:
     type: "array"
-    items: "string"
+    xml:
+      name: "Sentences"
+      wrapped: true
+    items:
+      type: "string"
   Rubies:
     type: "array"
     items:
