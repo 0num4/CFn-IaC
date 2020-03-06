@@ -54,4 +54,5 @@ RUN rm -rf $HOME/src && \
 WORKDIR $HOME/myapp
 RUN pip install -r $HOME/myapp/requirements.txt
 RUN nginx
+CMD echo "吾輩は猫である" | jumanpp | knp
 CMD /bin/bash
